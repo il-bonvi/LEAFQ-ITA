@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>LEAFQ-ITA (traduzione italiana non ufficiale)</title>
+<meta name="description" content="Traduzione italiana non ufficiale del LEAF-Q: questionario di screening su infortuni, funzione gastrointestinale e funzione mestruale. Nessun dato viene salvato o inviato.">
+<meta name="robots" content="index, follow">
+<style>
+:root{
+  --ink:#14252E; --muted:#4F636D; --paper:#F3F6F7; --card:#FFFFFF; --line:#CFDBE0;
+  --accent:#0E6B7A; --accent-ink:#FFFFFF; --accent-soft:#DCEEF1;
+  --flag:#8F4300; --flag-soft:#FBEBD2; --ok:#24663F; --ok-soft:#DCF0E3;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --ink:#E6EEF0; --muted:#A3B5BC; --paper:#0F1A1F; --card:#16252C; --line:#2B3F48;
+    --accent:#5CC0D0; --accent-ink:#06242A; --accent-soft:#1B3A43;
+    --flag:#F2B472; --flag-soft:#3A2A14; --ok:#85D6A8; --ok-soft:#173627;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 var(--sans);
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+.wrap{max-width:660px;margin:0 auto;padding:20px 18px 0}
+header.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}
+.brand{font:600 15px/1.2 var(--sans);color:var(--muted);letter-spacing:.01em}
+.link{background:none;border:0;color:var(--accent);font:inherit;font-size:15px;text-decoration:underline;
+  text-underline-offset:3px;cursor:pointer;padding:8px 0}
+h1{font:600 clamp(30px,8vw,42px)/1.1 var(--serif);margin:14px 0 8px;letter-spacing:-.01em}
+h2{font:600 clamp(24px,6vw,30px)/1.2 var(--serif);margin:0 0 6px;outline:none}
+.sub{color:var(--muted);margin:0 0 18px}
+.progress{display:flex;gap:5px;margin:14px 0 4px}
+.progress i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.progress i.done{background:var(--accent)}
+.stepname{font-size:14px;color:var(--muted);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card p:first-child{margin-top:0}.card p:last-child{margin-bottom:0}
+.note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 14px;border-radius:0 10px 10px 0;
+  margin:18px 0;font-size:16px}
+.hint{color:var(--muted);margin:0 0 18px;font-size:16px}
+fieldset.q{border:0;margin:0 0 26px;padding:0;min-width:0}
+fieldset.q legend{padding:0;margin-bottom:10px;font-weight:600;line-height:1.4}
+.code{color:var(--muted);font-weight:500;margin-right:4px}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;margin:0 0 8px;border:1.5px solid var(--line);
+  border-radius:12px;background:var(--card);cursor:pointer;min-height:50px}
+.opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.opt input{width:22px;height:22px;margin:1px 0 0;flex:none;accent-color:var(--accent)}
+.opt span{flex:1}
+.other{margin:-2px 0 10px 0}
+.other label{display:block;font-size:15px;color:var(--muted);margin-bottom:4px}
+input[type=text],input[type=number],textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--card);
+  border:1.5px solid var(--line);border-radius:10px;padding:12px 13px;min-height:48px}
+textarea{min-height:96px;resize:vertical}
+input[type=number]{max-width:220px}
+select{max-width:220px}
+.invalid legend{color:var(--flag)}
+.invalid .opt,.invalid select{border-color:var(--flag)}
+.err{display:none;color:var(--flag);font-size:15px;margin:6px 0 0;font-weight:600}
+.invalid .err{display:block}
+.alert{background:var(--flag-soft);color:var(--flag);border-radius:10px;padding:12px 14px;margin:0 0 20px;font-weight:600}
+.nav{position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);margin:28px -18px 0;
+  padding:12px 18px calc(12px + env(safe-area-inset-bottom));display:flex;gap:10px}
+button.btn{font:600 17px/1 var(--sans);border-radius:12px;padding:15px 20px;min-height:52px;cursor:pointer;
+  border:1.5px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+button.btn.ghost{background:transparent;color:var(--accent)}
+.nav .grow{flex:1}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.total{display:flex;gap:18px;align-items:center;border-radius:14px;padding:18px;margin-bottom:16px}
+.total.flag{background:var(--flag-soft);color:var(--flag)}
+.total.ok{background:var(--ok-soft);color:var(--ok)}
+.total .num{font:600 64px/1 var(--serif)}
+.total p{margin:0;color:var(--ink)}
+.total strong{display:block;font-size:18px;margin-bottom:2px}
+.gauge{margin:0 0 20px}
+.gauge .row{display:flex;justify-content:space-between;gap:10px;font-weight:600;margin-bottom:6px}
+.gauge .state{font-weight:600}
+.gauge .state.flag{color:var(--flag)}.gauge .state.ok{color:var(--ok)}
+.bar{position:relative;height:14px;border-radius:7px;background:var(--line)}
+.bar b{position:absolute;left:0;top:0;bottom:0;border-radius:7px;background:var(--ok)}
+.bar.flag b{background:var(--flag)}
+.bar u{position:absolute;top:-4px;bottom:-4px;left:50%;width:3px;background:var(--ink);border-radius:2px}
+.gauge small{display:block;color:var(--muted);margin-top:5px;font-size:14px}
+.flags{border:2px solid var(--flag);border-radius:12px;padding:14px 16px;margin:0 0 20px;background:var(--flag-soft)}
+.flags strong{color:var(--flag)}
+.flags p{margin:6px 0 0;color:var(--ink)}
+.result-actions{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.toast{font-size:15px;color:var(--ok);margin:8px 0 0;min-height:22px}
+footer{color:var(--muted);font-size:14px;margin:30px 0 0;padding:0 0 calc(28px + env(safe-area-inset-bottom))}
+footer p{margin:0 0 8px}
+.note a,footer a{color:var(--accent);text-underline-offset:3px}
+.stem{font-weight:600;margin:0 0 10px}
+.help{margin:-4px 0 10px;font-size:15px;color:var(--muted);background:var(--accent-soft);border-radius:10px;padding:9px 12px}
+@media (prefers-reduced-motion:no-preference){.opt{transition:background .12s,border-color .12s}}
+@media print{
+  body{background:#fff;color:#000}.nav,.progress,.stepname,.link,.result-actions,.toast{display:none!important}
+  .card,.total,.flags{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="brand">LEAF-Q</span>
+    <button class="link" id="reset" type="button" hidden>Ricomincia</button>
+  </header>
+  <main id="app" aria-live="polite"></main>
+  <footer>
+    <p>Strumento di screening a scopo informativo: non è una diagnosi e non sostituisce il parere di un medico.</p>
+    <p>Pagina non ufficiale: traduzione italiana del LEAF-Q originale, sviluppato da Melin e colleghi (Br J Sports Med 2014;48(7):540–545). <a href="https://usaclimbing.org/wp-content/uploads/2024/03/LEAF-Q.pdf" target="_blank" rel="noopener noreferrer">Questionario originale in inglese (PDF)</a>.</p>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   Domande: traduzione italiana non ufficiale del LEAF-Q originale
+   (Melin et al., Br J Sports Med 2014). I punteggi "s" sono quelli
+   della chiave ufficiale (Supplemental Digital Content 2); il punteggio
+   finale è la somma dei valori delle risposte date.
+   ============================================================ */
+const AIUTO = 'Scegli la risposta che descrive più accuratamente la tua situazione.';
+const GRUPPO3 = '3. Funzione mestruale e uso di contraccettivi';
+const STEPS = [
+  {id:'intro'},
+  {id:'inj', title:'1. Infortuni', hint:AIUTO},
+  {id:'gi',  title:'2. Funzione gastrointestinale', hint:AIUTO},
+  {id:'con', title:'3.1 Contraccettivi', group:GRUPPO3, hint:AIUTO},
+  {id:'men', title:'3.2 Funzione mestruale', group:GRUPPO3, hint:AIUTO},
+  {id:'res'}
+];
+const DATA_STEPS = STEPS.filter(s => s.id!=='intro' && s.id!=='res');
+
+const SI_NO = [{t:'Sì',s:0},{t:'No',s:0}];
+const FREQ = [
+  {t:'Sì, più volte al giorno',s:3},
+  {t:'Sì, più volte a settimana',s:2},
+  {t:'Sì, una o due volte a settimana o meno spesso',s:1},
+  {t:'Raramente o mai',s:0}
+];
+
+/* Condizioni di visibilità (ix = indice della risposta scelta) */
+const ix = (a,id) => a[id];
+const never = a => ix(a,'q32A')===4;               // "Non ho mai avuto le mestruazioni"
+const menstrual = a => !never(a);
+const hadInjury = a => ix(a,'q1A')>0;
+const hasPeriods = a => menstrual(a) && ix(a,'q32C')===0;
+const noPeriods  = a => menstrual(a) && (ix(a,'q32C')===1 || ix(a,'q32C')===2);
+
+const Q = [
+  /* ---------- 1. Infortuni ---------- */
+  {id:'q1A', step:'inj', sec:'inj', code:'1.A', req:true, type:'radio',
+    text:'Hai fatto assenze dagli allenamenti o dalla partecipazione a gare, nell\u2019ultimo anno, a causa di infortuni?',
+    opts:[{t:'No, per niente',s:0},{t:'Sì, una o due volte',s:1},{t:'Sì, tre o quattro volte',s:2},{t:'Sì, cinque volte o più',s:3}]},
+  {id:'q1A1', step:'inj', sec:'inj', code:'1.A1', req:true, type:'radio', show:hadInjury,
+    text:'Se sì, per quanti giorni in totale sei stata assente da allenamenti o gare a causa di infortuni nell\u2019ultimo anno?',
+    opts:[{t:'1-7 giorni',s:1},{t:'8-14 giorni',s:2},{t:'15-21 giorni',s:3},{t:'22 giorni o più',s:4}]},
+  {id:'q1A21', step:'inj', code:'1.A2.1', req:true, type:'radio', show:hadInjury,
+    before:'Se sì, che tipo di infortuni hai avuto nell\u2019ultimo anno?',
+    text:'Hai avuto una lesione da stress osseo (reazione o frattura da stress)?',
+    opts:SI_NO},
+  {id:'q1A21L', step:'inj', sec:'inj', code:'1.A2.1', req:true, type:'multi',
+    show:a=>hadInjury(a)&&ix(a,'q1A21')===0,
+    text:'Indica la sede o le sedi (puoi scegliere più opzioni):',
+    opts:[{t:'Collo del femore',s:2},{t:'Anca',s:2},{t:'Sacro',s:2},{t:'Bacino',s:2},{t:'Altra sede o altre sedi',s:1}]},
+  {id:'q1A22', step:'inj', sec:'inj', code:'1.A2.2', req:true, type:'radio', show:hadInjury,
+    text:'Hai avuto altri tipi di infortuni da sovraccarico?',
+    opts:[{t:'Sì',s:1},{t:'No',s:0}]},
+  {id:'q1A23', step:'inj', code:'1.A2.3', type:'radio', show:hadInjury,
+    help:'Acuto vuol dire improvviso, per esempio dopo una caduta o un trauma.',
+    text:'Hai avuto un infortunio acuto?',
+    opts:SI_NO},
+
+  /* ---------- 2. Funzione gastrointestinale ---------- */
+  {id:'q2A', step:'gi', sec:'gi', code:'2.A', req:true, type:'radio', opts:FREQ,
+    text:'Senti la pancia gonfia o piena di gas, anche quando non hai il ciclo?'},
+  {id:'q2B', step:'gi', sec:'gi', code:'2.B', req:true, type:'radio', opts:FREQ,
+    text:'Hai crampi o mal di pancia che non puoi collegare alle mestruazioni?'},
+  {id:'q2C', step:'gi', sec:'gi', code:'2.C', req:true, type:'radio',
+    text:'Quanto spesso vai di corpo, in media?',
+    opts:[{t:'Più volte al giorno',s:1},{t:'Una volta al giorno',s:0},{t:'Ogni due giorni',s:2},
+          {t:'Due volte a settimana',s:3},{t:'Una volta a settimana o più raramente',s:4}]},
+  {id:'q2D', step:'gi', sec:'gi', code:'2.D', req:true, type:'radio',
+    text:'Come descriveresti le tue feci abituali?',
+    opts:[{t:'Normali (morbide)',s:0},{t:'Diarroiche (acquose)',s:1},{t:'Dure e secche',s:2}]},
+
+  /* ---------- 3.1 Contraccettivi ---------- */
+  {id:'q31A', step:'con', sec:'men', code:'3.1.A', req:true, type:'radio', opts:SI_NO,
+    text:'Usi contraccettivi orali (la pillola)?'},
+  {id:'q31A1', step:'con', sec:'men', code:'3.1.A1', req:true, type:'radio', show:a=>ix(a,'q31A')===0,
+    text:'Se sì, perché usi i contraccettivi orali?',
+    opts:[{t:'Contraccezione',s:0},{t:'Riduzione dei dolori mestruali',s:0},{t:'Riduzione del flusso mestruale',s:0},
+          {t:'Regolare il ciclo in relazione alla performance, ecc.',s:0},
+          {t:'Altrimenti le mestruazioni si interromperebbero',s:1},{t:'Altro',s:0}]},
+  {id:'q31A2', step:'con', code:'3.1.A2', type:'radio', opts:SI_NO, show:a=>ix(a,'q31A')===1,
+    text:'Se no, hai usato contraccettivi orali in passato?'},
+  {id:'q31B', step:'con', code:'3.1.B', req:true, type:'radio', opts:SI_NO,
+    text:'Usi altri tipi di contraccettivi ormonali (per esempio impianto o spirale ormonale)?'},
+  {id:'q31B1', step:'con', code:'3.1.B1', type:'radio', show:a=>ix(a,'q31B')===0,
+    text:'Se sì, di che tipo?',
+    opts:[{t:'Cerotti ormonali',s:0},{t:'Anello ormonale',s:0},{t:'Spirale ormonale',s:0},
+          {t:'Impianto ormonale',s:0},{t:'Altro',s:0}]},
+
+  /* ---------- 3.2 Funzione mestruale ---------- */
+  {id:'q32A', step:'men', sec:'men', code:'3.2.A', req:true, type:'radio',
+    text:'Quanti anni avevi quando hai avuto il primo ciclo?',
+    opts:[{t:'11 anni o meno',s:0},{t:'12-14 anni',s:0},{t:'15 anni o più',s:1},{t:'Non ricordo',s:0},
+          {t:'Non ho mai avuto le mestruazioni',s:8}]},
+  {id:'q32B', step:'men', sec:'men', code:'3.2.B', req:true, type:'radio', show:menstrual,
+    text:'Il tuo primo ciclo è comparso spontaneamente (da solo)?',
+    opts:[{t:'Sì',s:0},{t:'No',s:2},{t:'Non ricordo',s:1}]},
+  {id:'q32B1', step:'men', code:'3.2.B1', type:'radio', show:a=>menstrual(a)&&ix(a,'q32B')===1,
+    text:'Se no, quale trattamento è stato usato per far iniziare il ciclo?',
+    opts:[{t:'Trattamento ormonale',s:0},{t:'Aumento di peso',s:0},{t:'Riduzione della quantità di allenamento',s:0},{t:'Altro',s:0}]},
+  {id:'q32C', step:'men', sec:'men', code:'3.2.C', req:true, type:'radio', show:menstrual,
+    text:'Hai mestruazioni normali?',
+    opts:[{t:'Sì',s:0},{t:'No',s:1},{t:'Non so',s:1}]},
+  {id:'q32C1', step:'men', sec:'men', code:'3.2.C1', req:true, type:'radio', show:hasPeriods,
+    text:'Se sì, quando hai avuto l\u2019ultimo ciclo?',
+    opts:[{t:'0-4 settimane fa',s:0},{t:'1-2 mesi fa',s:1},{t:'3-4 mesi fa',s:2},{t:'5-6 mesi fa',s:1},
+          {t:'Più di 6 mesi fa',s:3},{t:'12 mesi fa o più',s:4}]},
+  {id:'q32C2', step:'men', sec:'men', code:'3.2.C2', req:true, type:'radio', show:hasPeriods,
+    text:'Se sì, il tuo ciclo è regolare (ogni 28-34 giorni)?',
+    opts:[{t:'Sì, per lo più',s:0},{t:'No, per lo più no',s:1}]},
+  {id:'q32C3', step:'men', sec:'men', code:'3.2.C3', req:true, type:'radio', show:hasPeriods,
+    text:'Se sì, per quanti giorni dura normalmente il flusso?',
+    opts:[{t:'1-2 giorni',s:1},{t:'3-4 giorni',s:0},{t:'5-6 giorni',s:0},{t:'7-8 giorni',s:0},{t:'9 giorni o più',s:0}]},
+  {id:'q32C4', step:'men', sec:'men', code:'3.2.C4', req:true, type:'radio', show:hasPeriods,
+    text:'Se sì, hai mai avuto problemi di flusso mestruale abbondante?',
+    opts:[{t:'Sì',s:0},{t:'No',s:0}]},
+  {id:'q32C5', step:'men', sec:'men', code:'3.2.C5', req:true, type:'radio', show:hasPeriods,
+    text:'Se sì, quanti cicli hai avuto nell\u2019ultimo anno?',
+    opts:[{t:'12 o più',s:0},{t:'9-11',s:1},{t:'6-8',s:2},{t:'3-5',s:3},{t:'0-2',s:4}]},
+  {id:'q32C6', step:'men', sec:'men', code:'3.2.C6', req:true, type:'radio', show:noPeriods,
+    text:'Se hai risposto \u201cNo\u201d o \u201cNon so\u201d, quando hai avuto l\u2019ultimo ciclo?',
+    opts:[{t:'1-2 mesi fa',s:0},{t:'3-4 mesi fa',s:1},{t:'5-6 mesi fa',s:2},{t:'Più di 6 mesi fa',s:3},
+          {t:'12 mesi fa o più',s:4},{t:'Sono incinta e quindi non ho il ciclo',s:0}]},
+  {id:'q32D', step:'men', sec:'men', code:'3.2.D', req:true, type:'radio', show:menstrual,
+    text:'Il tuo ciclo si è mai interrotto per 3 mesi consecutivi o più (a parte la gravidanza)?',
+    opts:[{t:'No, mai',s:0},{t:'Sì, è già successo',s:1},{t:'Sì, è la situazione attuale',s:2}]},
+  {id:'q32E', step:'men', sec:'men', code:'3.2.E', req:true, type:'radio', show:menstrual,
+    text:'Noti che il tuo ciclo cambia quando aumenti l\u2019intensità, la frequenza o la durata degli allenamenti?',
+    opts:[{t:'Sì',s:1},{t:'No',s:0}]},
+  {id:'q32E1', step:'men', sec:'men', code:'3.2.E1', req:true, type:'multi', show:a=>menstrual(a)&&ix(a,'q32E')===0,
+    text:'Se sì, come? (puoi scegliere una o più opzioni)',
+    opts:[{t:'Il flusso è più abbondante',s:0},{t:'Il flusso dura più giorni',s:0},
+          {t:'Il flusso è più scarso',s:1},{t:'Il flusso dura meno giorni',s:1},
+          {t:'Il ciclo si interrompe',s:1}]}
+];
+
+const CUTOFF = {total:8, inj:2, gi:2, men:4};
+const SEC_NAMES = {inj:'Infortuni', gi:'Funzione gastrointestinale', men:'Funzione mestruale e contraccettivi'};
+
+/* ------------------------- Logica pura ------------------------- */
+function visible(q,a){ return q.show ? !!q.show(a) : true; }
+function isAnswered(q,a){
+  const v = a[q.id];
+  if(q.type==='multi') return Array.isArray(v) && v.length>0;
+  if(q.type==='radio') return typeof v==='number';
+  return v!==undefined && String(v).trim()!=='';
+}
+function missing(q,a){ return !!q.req && visible(q,a) && !isAnswered(q,a); }
+function scoreOf(q,a){
+  const v = a[q.id];
+  if(q.type==='radio') return typeof v==='number' ? q.opts[v].s : 0;
+  if(q.type==='multi') return Array.isArray(v) ? v.reduce((t,i)=>t+q.opts[i].s,0) : 0;
+  return 0;
+}
+function compute(a){
+  const sec = {inj:0,gi:0,men:0};
+  Q.forEach(q=>{ if(q.sec && visible(q,a)) sec[q.sec]+=scoreOf(q,a); });
+  const total = sec.inj+sec.gi+sec.men;
+  const flags = [];
+  if(never(a)) flags.push('Hai indicato di non aver mai avuto le mestruazioni.');
+  if(ix(a,'q32D')===2) flags.push('Il ciclo è assente da 3 mesi consecutivi o più, e questa è la situazione attuale.');
+  if(menstrual(a) && ix(a,'q32C5')===4) flags.push('Hai avuto al massimo 2 cicli negli ultimi 12 mesi.');
+  if(menstrual(a) && (ix(a,'q32C6')===3||ix(a,'q32C6')===4||ix(a,'q32C1')>=4)) flags.push('L\u2019ultimo ciclo risale a più di 6 mesi fa.');
+  return {sec,total,flags,
+    risk: total>=CUTOFF.total,
+    onPill: ix(a,'q31A')===0 || ix(a,'q31B')===0,
+    pregnant: ix(a,'q32C6')===5};
+}
+if(typeof module!=='undefined') module.exports={Q,compute,visible,missing,CUTOFF};
+
+/* ------------------------- Interfaccia ------------------------- */
+if(typeof document!=='undefined'){ (function(){
+  const KEY='leafq-it-v2';
+  const app=document.getElementById('app');
+  const resetBtn=document.getElementById('reset');
+  let state={a:{},step:0,showErr:false};
+  let memoryOnly=null; // fallback se sessionStorage non è disponibile
+
+  function load(){
+    try{ const raw=sessionStorage.getItem(KEY); if(raw){ const s=JSON.parse(raw);
+      if(s&&typeof s.step==='number'&&s.a&&typeof s.a==='object'){ state.a=s.a; state.step=Math.min(Math.max(s.step,0),STEPS.length-1); } } }
+    catch(e){ memoryOnly=true; }
+  }
+  function save(){
+    try{ sessionStorage.setItem(KEY,JSON.stringify({a:state.a,step:state.step})); }catch(e){ memoryOnly=true; }
+  }
+  function wipe(){ state={a:{},step:0,showErr:false}; try{ sessionStorage.removeItem(KEY);}catch(e){} }
+
+  const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const hasAny=()=>Object.keys(state.a).length>0;
+
+  function qHTML(q){
+    const a=state.a, miss=state.showErr&&missing(q,a);
+    const code=q.code?`<span class="code">${esc(q.code)}</span>`:'';
+    let h=(q.before?`<p class="stem">${esc(q.before)}</p>`:'')+`<fieldset class="q${miss?' invalid':''}" id="f-${q.id}"><legend>${code}${esc(q.text)}</legend>${q.help?`<p class="help">${esc(q.help)}</p>`:''}`;
+    if(q.type==='radio'){
+      q.opts.forEach((o,i)=>{
+        const on=a[q.id]===i;
+        h+=`<label class="opt${on?' on':''}"><input type="radio" name="${q.id}" id="${q.id}-${i}" value="${i}"${on?' checked':''}><span>${esc(o.t)}</span></label>`;
+        if(on&&o.other) h+=otherHTML(q,o);
+      });
+    }else if(q.type==='multi'){
+      const cur=Array.isArray(a[q.id])?a[q.id]:[];
+      q.opts.forEach((o,i)=>{
+        const on=cur.includes(i);
+        h+=`<label class="opt${on?' on':''}"><input type="checkbox" name="${q.id}" id="${q.id}-${i}" value="${i}"${on?' checked':''}><span>${esc(o.t)}</span></label>`;
+        if(on&&o.other) h+=otherHTML(q,o);
+      });
+    }else if(q.type==='select'){
+      h+=`<select id="${q.id}" data-field="${q.id}"><option value="">Seleziona</option>`+
+         q.opts.map(o=>`<option value="${esc(o)}"${a[q.id]===o?' selected':''}>${esc(o)}</option>`).join('')+`</select>`;
+    }else if(q.type==='number'){
+      h+=`<input type="number" id="${q.id}" data-field="${q.id}" inputmode="${q.mode||'numeric'}" min="${q.min}" max="${q.max}" step="any" value="${esc(a[q.id])}" aria-label="${esc(q.text)}">`;
+    }else if(q.type==='textarea'){
+      h+=`<textarea id="${q.id}" data-field="${q.id}" aria-label="${esc(q.text)}">${esc(a[q.id])}</textarea>`;
+    }
+    h+=`<p class="err" role="alert">Seleziona una risposta per continuare.</p></fieldset>`;
+    return h;
+  }
+  function otherHTML(q,o){
+    const id=`${q.id}_o`;
+    return `<div class="other"><label for="${id}">${esc(o.otherLabel||'Specifica')} (facoltativo)</label><input type="text" id="${id}" data-field="${id}" value="${esc(state.a[id])}"></div>`;
+  }
+
+  function progressHTML(){
+    const n=DATA_STEPS.length, cur=STEPS[state.step];
+    const idx=DATA_STEPS.findIndex(s=>s.id===cur.id);
+    let bars=''; for(let i=0;i<n;i++) bars+=`<i class="${i<=idx?'done':''}"></i>`;
+    return `<div class="progress" aria-hidden="true">${bars}</div><p class="stepname">Passo ${idx+1} di ${n}</p>`;
+  }
+
+  function render(focusId){
+    const step=STEPS[state.step];
+    resetBtn.hidden=!hasAny() && state.step===0;
+    let h='';
+    if(step.id==='intro') h=introHTML();
+    else if(step.id==='res') h=resultsHTML();
+    else{
+      const qs=Q.filter(q=>q.step===step.id&&visible(q,state.a));
+      const miss=state.showErr&&qs.some(q=>missing(q,state.a));
+      h=progressHTML()+(step.group?`<p class="sub" style="margin-bottom:4px">${esc(step.group)}</p>`:'')+
+        `<h2 tabindex="-1" id="stepTitle">${esc(step.title)}</h2><p class="hint">${esc(step.hint)}</p>`+
+        (miss?`<p class="alert" role="alert">Mancano alcune risposte: sono evidenziate qui sotto.</p>`:'')+
+        (step.id==='men'&&never(state.a)?`<div class="note">Hai indicato di non aver mai avuto le mestruazioni: le domande successive di questa sezione non si applicano.</div>`:'')+
+        qs.map(qHTML).join('');
+    }
+    h+=navHTML(step);
+    app.innerHTML=h;
+    bind();
+    if(focusId){ const el=document.getElementById(focusId); if(el) el.focus({preventScroll:true}); }
+  }
+
+  function introHTML(){
+    const resume=hasAny()?`<div class="note">Hai delle risposte salvate in questa scheda del browser. Puoi riprendere da dove eri o ricominciare.</div>`:'';
+    return `<h1>LEAFQ-ITA</h1>
+    <p class="sub">LEAF-Q (Low Energy Availability in Females Questionnaire)</p>
+    <div class="card">
+      <p>Il questionario sulla bassa disponibilità energetica nelle donne (LEAF-Q) si concentra sui sintomi fisici legati a un apporto energetico insufficiente.</p>
+      <p>Le pagine seguenti contengono domande su infortuni, funzione gastrointestinale e funzione riproduttiva.</p>
+    </div>
+    <div class="note"><strong>Questa pagina non è lo strumento ufficiale.</strong> È una traduzione italiana non ufficiale del LEAF-Q originale inglese (<a href="https://usaclimbing.org/wp-content/uploads/2024/03/LEAF-Q.pdf" target="_blank" rel="noopener noreferrer">PDF dell’originale</a>).</div>
+    <div class="note">Le tue risposte non vengono inviate né salvate su nessun server: restano in questa pagina, sul tuo dispositivo, e si cancellano quando chiudi la scheda o premi “Ricomincia”. Se ricarichi la pagina non le perdi.</div>
+    ${resume}`;
+  }
+
+  function navHTML(step){
+    if(step.id==='intro') return `<div class="nav"><button class="btn grow" id="next" type="button">${hasAny()?'Riprendi':'Inizia'}</button></div>`;
+    if(step.id==='res') return `<div class="nav"><button class="btn ghost" id="back" type="button">Modifica le risposte</button></div>`;
+    const last=state.step===STEPS.length-2;
+    return `<div class="nav"><button class="btn ghost" id="back" type="button">Indietro</button><button class="btn grow" id="next" type="button">${last?'Vedi il risultato':'Avanti'}</button></div>`;
+  }
+
+  function gauge(key){
+    const r=compute(state.a), v=key==='total'?r.total:r.sec[key], c=CUTOFF[key];
+    const over=v>=c, pct=Math.min(100,Math.round(v/(2*c)*100));
+    const name=key==='total'?'Punteggio totale':SEC_NAMES[key];
+    return `<div class="gauge"><div class="row"><span>${esc(name)}</span><span class="state ${over?'flag':'ok'}">${over?'Pari o sopra la soglia':'Sotto la soglia'}</span></div>
+      <div class="bar ${over?'flag':''}" role="img" aria-label="${v} punti, soglia ${c}"><b style="width:${pct}%"></b><u></u></div>
+      <small>${v} punti. Soglia: ${c}.</small></div>`;
+  }
+
+  function resultsHTML(){
+    const r=compute(state.a);
+    const flagBox=r.flags.length?`<div class="flags"><strong>Un segnale da non ignorare</strong>${r.flags.map(f=>`<p>${esc(f)}</p>`).join('')}
+      <p>Un ciclo assente o molto rado è un campanello d’allarme anche quando il punteggio totale è sotto soglia: parlane con un medico.</p></div>`:'';
+    const notes=[];
+    if(r.onPill) notes.push('Se usi contraccettivi ormonali, il sanguinamento mensile può mascherare un ciclo naturale soppresso: la parte sul ciclo va letta con cautela.');
+    if(r.pregnant) notes.push('Hai indicato di essere incinta: in gravidanza le domande sul ciclo non sono significative, e questo risultato va letto di conseguenza.');
+    const verdict=r.risk
+      ?'Il punteggio raggiunge la soglia del questionario. È un segnale che vale la pena approfondire insieme a una persona qualificata.'
+      :'Il punteggio è sotto la soglia del questionario. Non esclude del tutto un problema: se hai dubbi o sintomi, parlane comunque.';
+    const action=(r.risk||r.flags.length)
+      ?'Parlane con il tuo allenatore e con un medico (medico dello sport o ginecologo/a) o un dietista dello sport. Una valutazione serve a capire se il tuo corpo sta davvero ricevendo meno energia di quella che consuma (deficit energetico) e come intervenire.'
+      :'Continua ad ascoltare i segnali del tuo corpo e ripeti il questionario se qualcosa cambia, per esempio se il ciclo diventa irregolare o gli infortuni aumentano.';
+    return `<h2 tabindex="-1" id="stepTitle">Il tuo risultato</h2>
+    <div class="total ${r.risk?'flag':'ok'}"><span class="num">${r.total}</span><p><strong>Punteggio totale</strong>${esc(verdict)}</p></div>
+    ${flagBox}
+    ${gauge('total')}${gauge('inj')}${gauge('gi')}${gauge('men')}
+    <div class="card"><p>${esc(action)}</p>
+    ${notes.map(n=>`<p>${esc(n)}</p>`).join('')}
+    <p>Questo questionario è uno strumento di prima valutazione (screening), non una diagnosi. Se noti che cibo e peso occupano molto spazio nei tuoi pensieri, parlane con una persona di fiducia o con un professionista.</p></div>
+    <div class="result-actions">
+      <button class="btn" id="print" type="button">Stampa o salva in PDF</button>
+      <button class="btn ghost" id="copy" type="button">Copia il riepilogo</button>
+    </div>
+    <p class="toast" id="toast" role="status"></p>`;
+  }
+
+  function summaryText(){
+    const r=compute(state.a), d=new Date().toLocaleDateString('it-IT');
+    const L=['LEAF-Q, riepilogo del '+d,
+      'Punteggio totale: '+r.total+' (soglia '+CUTOFF.total+')',
+      'Infortuni: '+r.sec.inj+' (soglia '+CUTOFF.inj+')',
+      'Funzione gastrointestinale: '+r.sec.gi+' (soglia '+CUTOFF.gi+')',
+      'Funzione mestruale e contraccettivi: '+r.sec.men+' (soglia '+CUTOFF.men+')'];
+    r.flags.forEach(f=>L.push('Segnale: '+f));
+    return L.join('\n');
+  }
+
+  function bind(){
+    app.querySelectorAll('input[type=radio]').forEach(el=>el.addEventListener('change',()=>{
+      state.a[el.name]=Number(el.value); save(); render(el.id); }));
+    app.querySelectorAll('input[type=checkbox]').forEach(el=>el.addEventListener('change',()=>{
+      const cur=new Set(Array.isArray(state.a[el.name])?state.a[el.name]:[]);
+      el.checked?cur.add(Number(el.value)):cur.delete(Number(el.value));
+      state.a[el.name]=[...cur].sort((x,y)=>x-y); save(); render(el.id); }));
+    app.querySelectorAll('[data-field]').forEach(el=>{
+      el.addEventListener('input',()=>{ state.a[el.dataset.field]=el.value; save(); });
+      if(el.tagName==='SELECT') el.addEventListener('change',()=>{ state.a[el.dataset.field]=el.value; save(); });
+    });
+    const next=document.getElementById('next'), back=document.getElementById('back');
+    if(next) next.addEventListener('click',goNext);
+    if(back) back.addEventListener('click',()=>go(state.step-1));
+    const pr=document.getElementById('print'); if(pr) pr.addEventListener('click',()=>window.print());
+    const cp=document.getElementById('copy'); if(cp) cp.addEventListener('click',copySummary);
+  }
+
+  function goNext(){
+    const step=STEPS[state.step];
+    if(step.id!=='intro'){
+      const bad=Q.filter(q=>q.step===step.id&&missing(q,state.a));
+      if(bad.length){
+        state.showErr=true; render();
+        const el=document.getElementById('f-'+bad[0].id); if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+        return;
+      }
+    }
+    go(state.step+1);
+  }
+  function go(n){
+    state.step=Math.min(Math.max(n,0),STEPS.length-1); state.showErr=false; save(); render();
+    window.scrollTo(0,0);
+    const t=document.getElementById('stepTitle'); if(t) t.focus({preventScroll:true});
+  }
+  function copySummary(){
+    const txt=summaryText(), toast=document.getElementById('toast');
+    const done=()=>{ if(toast) toast.textContent='Riepilogo copiato.'; };
+    const fallback=()=>{ const t=document.createElement('textarea'); t.value=txt; t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); done(); }catch(e){ if(toast) toast.textContent='Copia non riuscita: usa “Stampa o salva in PDF”.'; } t.remove(); };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done,fallback); else fallback();
+  }
+
+  resetBtn.addEventListener('click',()=>{
+    if(!hasAny()||confirm('Vuoi cancellare tutte le risposte e ricominciare?')){ wipe(); render(); window.scrollTo(0,0); }
+  });
+
+  load(); render();
+})(); }
+</script>
+</body>
+</html>
